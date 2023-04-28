@@ -1,0 +1,56 @@
+------------------------------------------------------COL671 ASSIGNMENT No.2--------------------------------------------
+Shashank G 2022AIB2684
+Sangam Kumar 2022AIB2671
+
+Problem Statement:
+Implement an AI agent for playing the game extended connect four in two parts,
+a) while playing against a random agent and
+b) while playing against an adversarial agent.
+
+
+
+Part A
+1.) Used Expectimax algorithm for the given problem, it is a decision-making algorithm that maximizes the average (expected)
+ reward. It is typically applied to trees that have stochastic nodes, where the outcome of an action is uncertain.
+2.) In Expectimax AI player will search till a max possible depth d until the time limit exceeds for that move.
+3.) We are using heuristic evaluation function to estimate the value of a state which is not completely filled at a certain cutoff depth. (It is used in iterative deepening manner)
+3.) Then it will iterate to the top state calculating the expected value and max value of states in each iteration alternatively. We did it with recursive actions.
+4.) Finally the AI palyer will choose the move, that gives the best outcome through its children.
+
+Part B
+1.) Used AlphaBeta pruning algorithm for the given problem. This algorithm is an optimisation technique of  minimax algorithm.
+2.) In this problem AI player will search till a max possible depth d in the alloted time for the move.
+3.) We are using heuristic evaluation function to estimate the value of a state which is not completely filled at a certain cutoff depth. (It is used in iterative deepening manner)
+3.) From here AI player will iterate to the top state calculating the min and max value of states in each iteration alternatively. We did it with recursive actions.
+4.) Here Min values is chosen among the states the obtained by the opposite player move. In each case we expect the opponent will take the move that
+    minimize ai score to the least possible and ai will take the move that maximizes the ai score to most possible.
+5.) At the end, palyer will choose the move, that is closer to its win situation, i,e maximum points for the last terminal state explored.
+
+
+Explanation:
+
+Evaluation function design:
+
+The evalution function for ai (i.e eval(ai,board))  consists of two funcions g(ai, board) + h(ai, board)
+
+g(ai, board) is the same as the get_pts(ai, board) defined in the utils.py local library given in the starter code.
+
+h(ai, board) is designed as follows:
+    weights[window]/((window_length-count)*depth)
+
+    where weights = [0,0,3,7,20]
+    and window is a sliding window of a particular length (2 or 3 or 4) slided across the board diagonally, horizontally and vertically
+    window_length is the length of the window
+    count is the number of ai elements in the window (Note: h(ai, board) is evaluated only when count < window_length and count > 0 and there are no opponent elements inside the window)
+
+    depth is computed as follows: (assume ai player is number 1)
+    Eg window :  [1 0 0]      - Since the 0 elements are present right above some other element x, depth is given as 2^1*2^1=4
+                    x x
+    Eg window :  [1 1 0 0]    - depth = 2^1*2^2=8
+                      x 0
+                        x
+
+Similary eval(opponent, board) is computed and finally (eval(ai,board) - eval(opponent, board)) is returned.
+
+Algorithm:
+The algorithm is the same as taught in class which is present in lecture slides.
