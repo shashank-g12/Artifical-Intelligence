@@ -1,0 +1,18 @@
+Name: Shashank G
+Entry number: 2022AIB2684
+
+
+States: Each sentence which is a string consisting of characters including spaces is a state.
+Actions (char,idx): The possible replacement for each character in the string are the actions for a state. This will just be the reverse mapping of the conf_matrix.json file.
+Transition function: T(S,(char,idx), S') - Given a state S the next state S' which is a successor of S is obtained by replacing a character at certain index (given by 'idx')  by char.
+Edge cost: Each edge cost is the cost required to replace a character. Therefore, all edge costs are the same. We are more concerned about the resulting state obtained rather than the path cost.
+
+Algorithm: Greedy local search / Hill-cilmbing search
+- In such a search we have to find the best neighbour and then move to that neighbour. The best neighbour is the one which is having the minimum loss across all the states including the current state. Here only the current state is modified leading to a new state and the path is not retained.
+- We are finding out the best neighbour by iterating over the length of the string and trying out each possible replacement (i.e all actions for that state). This process continues until there is no neighbour with loss lesser than the current state.
+- If the average number of possible replacements is p(p<26) and length of the string is n, then branching factor b = O(n*p) in the average case. The space required is only for maintaining the current state.
+
+Limitations:
+- This Algorithm can get stuck in local minima and also when there is ridges/plateus in the loss function.
+- It can only accurately correct 1 letter error in a word. This is because the loss value decreases as we find the correct word when we search with all replacments for that particular error character whereas this doesn't happen when there are more than two errors in the word.
+- Can implement b=O(n^2*p) fix for the two errors but this doesn't scale well for words with error characters more than 2.
